@@ -1,0 +1,66 @@
+<!doctype html>
+<html ng-app="EsConnector">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="bootstrap.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>  
+    <script src="elasticsearch.angular.js"></script>
+    <script src="es-connect.js"></script>
+    <script>
+    </script>
+  </head>
+  <body>
+    <div ng-controller="QueryController">
+<section class="searchField">
+    		<form ng-submit="search()" class="form-inline">
+      		
+ 		<div class="form-group">
+		    <label for="ConflictSearch">Enter search text</label>
+		    <input class="form-control" type="text" ng-model="searchTerm">
+		    <!--input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"-->
+		  </div>
+
+		<!-- input class="col-md-6 col-md-offset-1" type="text" ng-model="searchTerm" -->
+		<button type="button" class="btn btn-primary" ng-click="search()">Search</button>
+  </form> 
+ </section>
+<section class="results">
+<div ng-if="ItemsByPage.length">	
+<table class="table  table-hover data-table myTable">
+            <thead>
+                <tr>
+                    <th class="companyId"> ID
+                         <span class="{{Header[0]}}"></span>
+                    </th>
+                    <th class="name"> Company Name
+                         <span class="{{Header[1]}}"></span>
+                    </th>
+                    <th class="status"> Status 
+                     <span class="{{Header[2]}}"></span>
+                    </th>
+                </tr>
+            </thead>
+	    <tbody>
+
+	<!--tr>{{ItemsByPage}}</tr-->
+          <tr ng-repeat="item in ItemsByPage[currentPage]" ng-clock>
+        	  <td>{{item._source.id }}</td>
+        	  <td>{{item._source.company_name }}</td>
+        	  <td>{{item._source.status }}</td>
+	</tr>
+	</tbody>
+        </table>
+	<ul class="pagination pagination-sm">
+            <li ng-class="{active:0}"><a href="#" ng-click="firstPage()">First</a>
+            </li>
+            <li ng-repeat="n in range(ItemsByPage.length)"> <a href="#" ng-click="setPage()" ng-bind="n+1">1</a>
+            </li>
+            <li><a href="#" ng-click="lastPage()">Last</a>
+            </li>
+        </ul>
+
+    </div>
+    <br>
+    </body>
+</html>
+
